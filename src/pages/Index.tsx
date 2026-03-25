@@ -1,16 +1,36 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import ExecutiveHeader from "@/components/dashboard/ExecutiveHeader";
+import GraphVisualization from "@/components/dashboard/GraphVisualization";
+import SecurityPanel from "@/components/dashboard/SecurityPanel";
+import CompliancePanel from "@/components/dashboard/CompliancePanel";
+import ResourceInventory from "@/components/dashboard/ResourceInventory";
+import AlertsFeed from "@/components/dashboard/AlertsFeed";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-background p-4 lg:p-8">
+      <div className="max-w-[1400px] mx-auto">
+        <ExecutiveHeader />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left column - Graph */}
+          <div className="lg:col-span-2">
+            <GraphVisualization />
+          </div>
+
+          {/* Right column - Security */}
+          <div>
+            <SecurityPanel />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+          <CompliancePanel />
+          <ResourceInventory />
+          <AlertsFeed />
+        </div>
+      </div>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
