@@ -4,6 +4,8 @@ import SecurityPanel from "@/components/dashboard/SecurityPanel";
 import CompliancePanel from "@/components/dashboard/CompliancePanel";
 import ResourceInventory from "@/components/dashboard/ResourceInventory";
 import AlertsFeed from "@/components/dashboard/AlertsFeed";
+import AttackSurfaceExplorer from "@/components/dashboard/AttackSurfaceExplorer";
+import ComplianceWorkflows from "@/components/dashboard/ComplianceWorkflows";
 
 const Index = () => {
   return (
@@ -24,9 +26,14 @@ const Index = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+          <AttackSurfaceExplorer />
+          <ComplianceWorkflows />
+          <AlertsFeed />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
           <CompliancePanel />
           <ResourceInventory />
-          <AlertsFeed />
         </div>
       </div>
     </div>
