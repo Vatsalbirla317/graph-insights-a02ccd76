@@ -65,6 +65,10 @@ export default {
         "risk-medium": "hsl(var(--risk-medium))",
         "risk-low": "hsl(var(--risk-low))",
         "chart-line": "hsl(var(--chart-line))",
+        "status-ok": "hsl(var(--status-ok))",
+        "status-warn": "hsl(var(--status-warn))",
+        "status-error": "hsl(var(--status-error))",
+        "status-info": "hsl(var(--status-info))",
       },
       borderRadius: {
         lg: "var(--radius)",
