@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { resources, relationships, Resource } from "@/data/mockData";
-import { X, ZoomIn, ZoomOut, RotateCcw, Search } from "lucide-react";
+import { X, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import ImpactAnalysisModal from "./ImpactAnalysisModal";
 
 interface NodePosition {
@@ -95,24 +95,24 @@ const GraphVisualization = () => {
   const filteredIds = new Set(filteredNodes.map(n => n.resource.id));
 
   return (
-    <div className="glass-card p-5 relative" style={{ animationDelay: "0.1s" }}>
-      <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Resource Graph</h2>
-        <div className="flex items-center gap-1">
-           <button onClick={() => setZoom(z => Math.min(z + 0.2, 2))} className="btn-icon">
-              <ZoomIn className="h-3.5 w-3.5" />
-            </button>
-            <button onClick={() => setZoom(z => Math.max(z - 0.2, 0.5))} className="btn-icon">
-              <ZoomOut className="h-3.5 w-3.5" />
-            </button>
-            <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="btn-icon">
-              <RotateCcw className="h-3.5 w-3.5" />
-            </button>
+    <div className="glass-card p-4 relative" style={{ animationDelay: "0.1s" }}>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-xs font-semibold text-foreground uppercase tracking-wider">Service Map</h2>
+        <div className="flex items-center gap-0.5">
+          <button onClick={() => setZoom(z => Math.min(z + 0.2, 2))} className="btn-icon">
+            <ZoomIn className="h-3.5 w-3.5" />
+          </button>
+          <button onClick={() => setZoom(z => Math.max(z - 0.2, 0.5))} className="btn-icon">
+            <ZoomOut className="h-3.5 w-3.5" />
+          </button>
+          <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="btn-icon">
+            <RotateCcw className="h-3.5 w-3.5" />
+          </button>
         </div>
       </div>
 
-      {/* Legend + Filters */}
-      <div className="flex flex-wrap items-center gap-2 mb-3">
+      {/* Legend + Filters — Datadog tab bar */}
+      <div className="flex items-center gap-0.5 mb-2 bg-secondary rounded p-0.5 w-fit">
         <button
           onClick={() => setFilterType("All")}
           className={`pill-filter ${filterType === "All" ? "pill-filter-active" : "pill-filter-inactive"}`}
@@ -123,7 +123,7 @@ const GraphVisualization = () => {
             onClick={() => setFilterType(type)}
             className={`flex items-center gap-1.5 pill-filter ${filterType === type ? "pill-filter-active" : "pill-filter-inactive"}`}
           >
-            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: NODE_COLORS[type as Resource["type"]] }} />
+            <span className="h-1.5 w-1.5 rounded-sm" style={{ backgroundColor: NODE_COLORS[type as Resource["type"]] }} />
             {label}
           </button>
         ))}
@@ -155,9 +155,9 @@ const GraphVisualization = () => {
                 x2={to.x}
                 y2={to.y}
                 stroke="hsl(var(--chart-line))"
-                strokeWidth={1.5}
+                strokeWidth={1}
                 strokeDasharray={rel.type === "AFFECTS" ? "4 3" : undefined}
-                opacity={selectedNode ? (rel.from === selectedNode.id || rel.to === selectedNode.id ? 0.9 : 0.15) : 0.5}
+                opacity={selectedNode ? (rel.from === selectedNode.id || rel.to === selectedNode.id ? 0.8 : 0.1) : 0.35}
                 className="transition-opacity duration-300"
               />
             );
@@ -170,32 +170,32 @@ const GraphVisualization = () => {
               ? relationships.some(r => (r.from === selectedNode.id && r.to === node.resource.id) || (r.to === selectedNode.id && r.from === node.resource.id))
               : false;
             const dimmed = selectedNode && !isSelected && !isConnected;
-            const radius = node.resource.type === "Risk" ? 18 : 22;
+            const radius = node.resource.type === "Risk" ? 16 : 20;
 
             return (
               <g
                 key={node.resource.id}
                 className="cursor-pointer transition-all duration-300"
-                opacity={dimmed ? 0.2 : 1}
+                opacity={dimmed ? 0.15 : 1}
                 onClick={() => setSelectedNode(isSelected ? null : node.resource)}
               >
                 {isSelected && (
-                  <circle cx={node.x} cy={node.y} r={radius + 6} fill="none" stroke={NODE_COLORS[node.resource.type]} strokeWidth={2} opacity={0.4} />
+                  <circle cx={node.x} cy={node.y} r={radius + 5} fill="none" stroke={NODE_COLORS[node.resource.type]} strokeWidth={1.5} opacity={0.5} strokeDasharray="3 2" />
                 )}
                 <circle
                   cx={node.x}
                   cy={node.y}
                   r={radius}
                   fill={NODE_COLORS[node.resource.type]}
-                  opacity={0.9}
+                  opacity={0.85}
                   className="transition-all duration-200 hover:opacity-100"
                 />
                 <text
                   x={node.x}
-                  y={node.y + radius + 14}
+                  y={node.y + radius + 13}
                   textAnchor="middle"
-                  className="fill-muted-foreground text-[10px]"
-                  style={{ fontFamily: "Inter, sans-serif" }}
+                  className="fill-muted-foreground"
+                  style={{ fontFamily: "'Inter', sans-serif", fontSize: "9px" }}
                 >
                   {node.resource.name.length > 20 ? node.resource.name.slice(0, 18) + "…" : node.resource.name}
                 </text>
@@ -207,50 +207,50 @@ const GraphVisualization = () => {
 
       {/* Detail popup */}
       {selectedNode && (
-        <div className="absolute top-14 right-4 w-64 glass-card border border-border p-4 z-10 animate-fade-in">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{NODE_LABELS[selectedNode.type]}</span>
-            <button onClick={() => setSelectedNode(null)} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
+        <div className="absolute top-12 right-3 w-60 glass-card border border-border p-3 z-10 animate-fade-in">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[10px] font-data uppercase tracking-wider text-muted-foreground">{NODE_LABELS[selectedNode.type]}</span>
+            <button onClick={() => setSelectedNode(null)} className="btn-icon"><X className="h-3.5 w-3.5" /></button>
           </div>
           <h3 className="text-sm font-semibold text-foreground mb-1">{selectedNode.name}</h3>
-          {selectedNode.description && <p className="text-xs text-muted-foreground mb-2">{selectedNode.description}</p>}
-          {selectedNode.risk && (
-            <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${selectedNode.risk === "High" ? "bg-[hsl(var(--risk-high)/0.2)] severity-high" : selectedNode.risk === "Medium" ? "bg-[hsl(var(--risk-medium)/0.2)] severity-medium" : "bg-[hsl(var(--risk-low)/0.2)] severity-low"}`}>
-              {selectedNode.risk} Risk
-            </span>
-          )}
-          {selectedNode.compliance && (
-            <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${selectedNode.compliance === "Non-Compliant" ? "bg-[hsl(var(--risk-high)/0.2)] severity-high" : "bg-[hsl(var(--risk-low)/0.2)] severity-low"}`}>
-              {selectedNode.compliance}
-            </span>
-          )}
-          <div className="mt-3 text-xs text-muted-foreground">
-            <p className="font-medium text-foreground mb-1">Connections:</p>
+          {selectedNode.description && <p className="text-[11px] text-muted-foreground mb-2">{selectedNode.description}</p>}
+          <div className="flex gap-1.5 mb-2">
+            {selectedNode.risk && (
+              <span className={`text-[10px] font-data font-medium px-2 py-0.5 rounded ${selectedNode.risk === "High" ? "bg-[hsl(var(--risk-high)/0.15)] severity-high" : selectedNode.risk === "Medium" ? "bg-[hsl(var(--risk-medium)/0.15)] severity-medium" : "bg-[hsl(var(--risk-low)/0.15)] severity-low"}`}>
+                {selectedNode.risk.toUpperCase()} RISK
+              </span>
+            )}
+            {selectedNode.compliance && (
+              <span className={`text-[10px] font-data font-medium px-2 py-0.5 rounded ${selectedNode.compliance === "Non-Compliant" ? "bg-[hsl(var(--risk-high)/0.15)] severity-high" : "bg-[hsl(var(--risk-low)/0.15)] severity-low"}`}>
+                {selectedNode.compliance === "Non-Compliant" ? "NON-COMPLIANT" : "COMPLIANT"}
+              </span>
+            )}
+          </div>
+          <div className="text-[11px] text-muted-foreground mb-2">
+            <p className="font-medium text-foreground text-[10px] uppercase tracking-wider mb-1">Dependencies</p>
             {relationships
               .filter(r => r.from === selectedNode.id || r.to === selectedNode.id)
               .map((r, i) => {
                 const otherId = r.from === selectedNode.id ? r.to : r.from;
                 const other = resources.find(res => res.id === otherId);
                 return (
-                  <div key={i} className="flex items-center gap-1 mt-0.5">
-                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: NODE_COLORS[other?.type || "AI_Service"] }} />
-                    <span>{other?.name}</span>
-                    <span className="text-muted-foreground/50 ml-auto">{r.type.replace(/_/g, " ").toLowerCase()}</span>
+                  <div key={i} className="flex items-center gap-1.5 mt-0.5">
+                    <span className="h-1.5 w-1.5 rounded-sm" style={{ backgroundColor: NODE_COLORS[other?.type || "AI_Service"] }} />
+                    <span className="text-foreground">{other?.name}</span>
+                    <span className="text-muted-foreground/50 ml-auto font-data text-[9px]">{r.type.replace(/_/g, " ")}</span>
                   </div>
                 );
               })}
           </div>
-          {/* Analyze Impact button */}
           <button
             onClick={(e) => { e.stopPropagation(); setImpactNode(selectedNode); }}
-            className="mt-3 w-full btn-action btn-action-solid"
+            className="w-full btn-action btn-action-solid"
           >
             Analyze Impact
           </button>
         </div>
       )}
 
-      {/* Impact Analysis Modal */}
       {impactNode && (
         <ImpactAnalysisModal resource={impactNode} onClose={() => setImpactNode(null)} />
       )}

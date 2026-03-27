@@ -9,7 +9,7 @@ import ComplianceWorkflows from "@/components/dashboard/ComplianceWorkflows";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background p-4 lg:p-8">
+    <div className="min-h-screen bg-background p-3 lg:p-6">
       <div className="max-w-[1400px] mx-auto">
         <ExecutiveHeader />
 

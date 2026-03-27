@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,57 +6,64 @@
 
 @layer base {
   :root {
-    --background: 230 25% 5%;
-    --foreground: 220 20% 92%;
+    /* Datadog-inspired: deep indigo/navy background, vivid purple primary */
+    --background: 240 20% 4%;
+    --foreground: 220 20% 90%;
 
-    --card: 228 22% 8%;
-    --card-foreground: 220 20% 92%;
+    --card: 240 18% 7%;
+    --card-foreground: 220 20% 90%;
 
-    --popover: 228 22% 8%;
-    --popover-foreground: 220 20% 92%;
+    --popover: 240 18% 7%;
+    --popover-foreground: 220 20% 90%;
 
-    --primary: 38 75% 55%;
-    --primary-foreground: 230 25% 5%;
+    --primary: 262 72% 56%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 225 18% 13%;
-    --secondary-foreground: 220 15% 80%;
+    --secondary: 240 14% 11%;
+    --secondary-foreground: 220 15% 75%;
 
-    --muted: 225 18% 11%;
-    --muted-foreground: 220 12% 48%;
+    --muted: 240 14% 10%;
+    --muted-foreground: 230 10% 46%;
 
-    --accent: 38 75% 55%;
-    --accent-foreground: 230 25% 5%;
+    --accent: 262 72% 56%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62% 48%;
-    --destructive-foreground: 220 20% 96%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 225 15% 15%;
-    --input: 225 15% 15%;
-    --ring: 38 75% 55%;
+    --border: 240 12% 14%;
+    --input: 240 12% 14%;
+    --ring: 262 72% 56%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom tokens */
-    --risk-high: 0 62% 48%;
-    --risk-medium: 38 80% 52%;
-    --risk-low: 152 60% 42%;
-    --compliant: 152 60% 42%;
-    --node-ai: 215 70% 55%;
-    --node-storage: 152 60% 42%;
-    --node-user: 38 80% 52%;
-    --node-risk: 0 62% 48%;
-    --glow-primary: 0 0 40px hsl(38 75% 55% / 0.08), 0 0 80px hsl(38 75% 55% / 0.04);
-    --glass-bg: 225 18% 10%;
-    --chart-line: 215 25% 25%;
+    /* Observability tokens */
+    --risk-high: 0 72% 51%;
+    --risk-medium: 35 92% 55%;
+    --risk-low: 145 65% 42%;
+    --compliant: 145 65% 42%;
+    --node-ai: 262 72% 60%;
+    --node-storage: 145 65% 42%;
+    --node-user: 35 92% 55%;
+    --node-risk: 0 72% 51%;
+    --glow-primary: 0 0 30px hsl(262 72% 56% / 0.06);
+    --glass-bg: 240 14% 9%;
+    --chart-line: 240 12% 20%;
 
-    --sidebar-background: 230 25% 5%;
-    --sidebar-foreground: 220 20% 92%;
-    --sidebar-primary: 38 75% 55%;
-    --sidebar-primary-foreground: 230 25% 5%;
-    --sidebar-accent: 225 18% 13%;
-    --sidebar-accent-foreground: 220 20% 92%;
-    --sidebar-border: 225 15% 15%;
-    --sidebar-ring: 38 75% 55%;
+    /* Datadog-style status colors */
+    --status-ok: 145 65% 42%;
+    --status-warn: 35 92% 55%;
+    --status-error: 0 72% 51%;
+    --status-info: 210 85% 57%;
+
+    --sidebar-background: 240 20% 4%;
+    --sidebar-foreground: 220 20% 90%;
+    --sidebar-primary: 262 72% 56%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 14% 11%;
+    --sidebar-accent-foreground: 220 20% 90%;
+    --sidebar-border: 240 12% 14%;
+    --sidebar-ring: 262 72% 56%;
   }
 }
 
@@ -68,13 +75,14 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 }
 
 @layer components {
+  /* Datadog-style flat card with thin border */
   .glass-card {
-    @apply bg-card border border-border rounded-xl;
-    background: linear-gradient(135deg, hsl(228 22% 9%), hsl(228 22% 7%));
+    @apply bg-card border border-border rounded-lg;
     box-shadow: var(--glow-primary);
   }
 
@@ -84,8 +92,8 @@
 
   .stat-glow::before {
     content: '';
-    @apply absolute inset-0 opacity-5 rounded-xl;
-    background: radial-gradient(ellipse at top, hsl(var(--primary)), transparent 70%);
+    @apply absolute inset-0 opacity-[0.03] rounded-lg;
+    background: radial-gradient(ellipse at top left, hsl(var(--primary)), transparent 60%);
   }
 
   .pulse-dot {
@@ -99,59 +107,65 @@
     opacity: 0.4;
   }
 
-  .severity-high {
-    @apply text-[hsl(var(--risk-high))];
-  }
-  .severity-medium {
-    @apply text-[hsl(var(--risk-medium))];
-  }
-  .severity-low {
-    @apply text-[hsl(var(--risk-low))];
-  }
+  /* Severity text */
+  .severity-high { @apply text-[hsl(var(--risk-high))]; }
+  .severity-medium { @apply text-[hsl(var(--risk-medium))]; }
+  .severity-low { @apply text-[hsl(var(--risk-low))]; }
 
-  .bg-severity-high {
-    background-color: hsl(var(--risk-high));
-  }
-  .bg-severity-medium {
-    background-color: hsl(var(--risk-medium));
-  }
-  .bg-severity-low {
-    background-color: hsl(var(--risk-low));
-  }
+  /* Severity backgrounds */
+  .bg-severity-high { background-color: hsl(var(--risk-high)); }
+  .bg-severity-medium { background-color: hsl(var(--risk-medium)); }
+  .bg-severity-low { background-color: hsl(var(--risk-low)); }
 
+  /* Node type backgrounds */
   .bg-node-ai { background-color: hsl(var(--node-ai)); }
   .bg-node-storage { background-color: hsl(var(--node-storage)); }
   .bg-node-user { background-color: hsl(var(--node-user)); }
   .bg-node-risk { background-color: hsl(var(--node-risk)); }
 
-  /* Premium pill button */
+  /* Datadog-style tab/pill filter — compact, no border by default */
   .pill-filter {
-    @apply text-[10px] px-3 py-1 rounded-full transition-all duration-200 border font-medium;
+    @apply text-[11px] px-2.5 py-1 rounded transition-all duration-150 font-medium tracking-wide uppercase;
   }
   .pill-filter-active {
-    @apply bg-primary text-primary-foreground border-primary shadow-[0_0_12px_hsl(var(--primary)/0.25)];
+    @apply bg-primary text-primary-foreground;
   }
   .pill-filter-inactive {
-    @apply text-muted-foreground border-border/50 hover:border-primary/40 hover:text-foreground hover:bg-secondary/50;
+    @apply text-muted-foreground hover:text-foreground hover:bg-secondary;
   }
 
-  /* Premium action button */
+  /* Action button — Datadog style: flat, compact */
   .btn-action {
-    @apply text-[11px] px-3 py-1.5 rounded-lg font-medium transition-all duration-200;
+    @apply text-[11px] px-3 py-1.5 rounded font-medium transition-all duration-150;
   }
   .btn-action-primary {
-    @apply bg-primary/15 text-primary border border-primary/20 hover:bg-primary/25 hover:border-primary/40 hover:shadow-[0_0_16px_hsl(var(--primary)/0.15)];
+    @apply bg-primary/15 text-primary hover:bg-primary/25;
   }
   .btn-action-danger {
-    @apply bg-[hsl(var(--risk-high)/0.1)] text-[hsl(var(--risk-high))] border border-[hsl(var(--risk-high)/0.2)] hover:bg-[hsl(var(--risk-high)/0.2)] hover:border-[hsl(var(--risk-high)/0.3)];
+    @apply bg-[hsl(var(--risk-high)/0.1)] text-[hsl(var(--risk-high))] hover:bg-[hsl(var(--risk-high)/0.2)];
   }
   .btn-action-solid {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_20px_hsl(var(--primary)/0.3)];
+    @apply bg-primary text-primary-foreground hover:bg-primary/85;
   }
 
-  /* Premium icon button */
+  /* Icon button — compact */
   .btn-icon {
-    @apply p-1.5 rounded-lg border border-transparent text-muted-foreground transition-all duration-200 hover:bg-secondary hover:text-foreground hover:border-border/50;
+    @apply p-1.5 rounded text-muted-foreground transition-all duration-150 hover:bg-secondary hover:text-foreground;
+  }
+
+  /* Monospace data values */
+  .font-data {
+    font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  }
+
+  /* Datadog-style metric card */
+  .metric-card {
+    @apply bg-secondary/50 rounded p-3 text-center;
+  }
+
+  /* Dense table row */
+  .table-row {
+    @apply flex items-center gap-3 px-3 py-2 text-xs hover:bg-secondary/50 transition-colors cursor-pointer border-b border-border/30 last:border-0;
   }
 }
 
