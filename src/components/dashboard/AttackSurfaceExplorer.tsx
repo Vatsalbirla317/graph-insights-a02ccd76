@@ -41,12 +41,12 @@ const AttackSurfaceExplorer = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-1 mb-3">
+      <div className="flex gap-1.5 mb-3">
         {["All", "Public", "Private", "Internal"].map(f => (
           <button
             key={f}
             onClick={() => setFilterExposure(f)}
-            className={`text-[10px] px-2 py-0.5 rounded-full transition-colors ${filterExposure === f ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary"}`}
+            className={`pill-filter ${filterExposure === f ? "pill-filter-active" : "pill-filter-inactive"}`}
           >
             {f}
           </button>
@@ -98,7 +98,7 @@ const AttackSurfaceExplorer = () => {
                     </div>
                   </div>
                   {svc.vulnerabilities > 0 && (
-                    <button className="w-full text-[10px] px-3 py-1.5 rounded bg-primary/10 text-primary hover:bg-primary/20 transition-colors flex items-center justify-center gap-1">
+                    <button className="w-full btn-action btn-action-primary flex items-center justify-center gap-1">
                       <Shield className="h-3 w-3" /> View Remediation Steps
                     </button>
                   )}

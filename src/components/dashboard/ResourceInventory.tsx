@@ -10,10 +10,10 @@ const typeIcons = {
 };
 
 const typeColors: Record<string, string> = {
-  AI_Service: "hsl(217, 91%, 60%)",
-  Storage: "hsl(142, 71%, 45%)",
-  User: "hsl(38, 92%, 50%)",
-  Risk: "hsl(0, 72%, 51%)",
+  AI_Service: "hsl(var(--node-ai))",
+  Storage: "hsl(var(--node-storage))",
+  User: "hsl(var(--node-user))",
+  Risk: "hsl(var(--node-risk))",
 };
 
 const chartData = Object.entries(
@@ -31,9 +31,9 @@ const ResourceInventory = () => {
       <div className="h-36 mb-4">
         <ResponsiveContainer>
           <BarChart data={chartData} barSize={32}>
-            <XAxis dataKey="type" tick={{ fontSize: 10, fill: "hsl(215, 20%, 55%)" }} axisLine={false} tickLine={false} />
+            <XAxis dataKey="type" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
             <YAxis hide />
-            <Tooltip contentStyle={{ background: "hsl(222, 47%, 9%)", border: "1px solid hsl(215, 25%, 18%)", borderRadius: "8px", fontSize: "12px", color: "hsl(210, 40%, 96%)" }} />
+            <Tooltip contentStyle={{ background: "hsl(228, 22%, 8%)", border: "1px solid hsl(var(--border))", borderRadius: "8px", fontSize: "12px", color: "hsl(var(--foreground))" }} />
             <Bar dataKey="count" radius={[6, 6, 0, 0]}>
               {chartData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
             </Bar>

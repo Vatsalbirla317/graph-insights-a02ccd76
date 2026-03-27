@@ -3,9 +3,9 @@ import { Shield, AlertTriangle, ChevronRight } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 const severityColors = {
-  High: "hsl(0, 72%, 51%)",
-  Medium: "hsl(38, 92%, 50%)",
-  Low: "hsl(142, 71%, 45%)",
+  High: "hsl(var(--risk-high))",
+  Medium: "hsl(var(--risk-medium))",
+  Low: "hsl(var(--risk-low))",
 };
 
 const data = [
@@ -30,7 +30,7 @@ const SecurityPanel = () => {
               <Pie data={data} cx="50%" cy="50%" innerRadius={25} outerRadius={40} dataKey="value" strokeWidth={0}>
                 {data.map((entry, i) => <Cell key={i} fill={entry.color} />)}
               </Pie>
-              <Tooltip contentStyle={{ background: "hsl(222, 47%, 9%)", border: "1px solid hsl(215, 25%, 18%)", borderRadius: "8px", fontSize: "12px", color: "hsl(210, 40%, 96%)" }} />
+              <Tooltip contentStyle={{ background: "hsl(228, 22%, 8%)", border: "1px solid hsl(var(--border))", borderRadius: "8px", fontSize: "12px", color: "hsl(var(--foreground))" }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
