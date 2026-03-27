@@ -25,30 +25,30 @@ const chartData = Object.entries(
 
 const ResourceInventory = () => {
   return (
-    <div className="glass-card p-5 animate-fade-in" style={{ animationDelay: "0.35s" }}>
-      <h2 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">Resource Inventory</h2>
+    <div className="glass-card p-4 animate-fade-in" style={{ animationDelay: "0.35s" }}>
+      <h2 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">Resource Inventory</h2>
 
-      <div className="h-36 mb-4">
+      <div className="h-32 mb-3">
         <ResponsiveContainer>
-          <BarChart data={chartData} barSize={32}>
+          <BarChart data={chartData} barSize={28}>
             <XAxis dataKey="type" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
             <YAxis hide />
-            <Tooltip contentStyle={{ background: "hsl(228, 22%, 8%)", border: "1px solid hsl(var(--border))", borderRadius: "8px", fontSize: "12px", color: "hsl(var(--foreground))" }} />
-            <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+            <Tooltip contentStyle={{ background: "hsl(240, 18%, 7%)", border: "1px solid hsl(var(--border))", borderRadius: "4px", fontSize: "11px", color: "hsl(var(--foreground))" }} />
+            <Bar dataKey="count" radius={[3, 3, 0, 0]}>
               {chartData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-0">
         {resources.slice(0, 5).map(r => {
           const Icon = typeIcons[r.type];
           return (
-            <div key={r.id} className="flex items-center gap-3 text-xs p-2 rounded-lg hover:bg-secondary/50 transition-colors">
-              <Icon className="h-3.5 w-3.5" style={{ color: typeColors[r.type] }} />
-              <span className="text-foreground flex-1 truncate">{r.name}</span>
-              <span className="text-muted-foreground capitalize">{r.type.replace("_", " ")}</span>
+            <div key={r.id} className="table-row">
+              <Icon className="h-3.5 w-3.5 flex-shrink-0" style={{ color: typeColors[r.type] }} />
+              <span className="text-foreground flex-1 truncate text-xs">{r.name}</span>
+              <span className="text-muted-foreground text-[10px] font-data uppercase">{r.type.replace("_", " ")}</span>
             </div>
           );
         })}
