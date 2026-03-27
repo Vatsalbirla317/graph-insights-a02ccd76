@@ -42,7 +42,7 @@ const ImpactAnalysisModal = ({ resource, onClose }: Props) => {
               <span className="text-xs text-muted-foreground">{resource.description}</span>
             </div>
           </div>
-          <button onClick={onClose} className="text-muted-foreground hover:text-foreground p-1">
+          <button onClick={onClose} className="btn-icon">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -102,12 +102,12 @@ const ImpactAnalysisModal = ({ resource, onClose }: Props) => {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-4 bg-secondary/30 rounded-lg p-1 w-fit">
+        <div className="flex gap-1.5 mb-4 bg-secondary/30 rounded-lg p-1 w-fit">
           {tabs.map(t => (
             <button
               key={t.key}
               onClick={() => setActiveTab(t.key)}
-              className={`text-xs px-3 py-1.5 rounded-md transition-colors ${activeTab === t.key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              className={`text-xs px-3.5 py-1.5 rounded-md font-medium transition-all duration-200 ${activeTab === t.key ? "bg-primary text-primary-foreground shadow-[0_0_12px_hsl(var(--primary)/0.2)]" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"}`}
             >
               {t.label}
             </button>
@@ -154,7 +154,7 @@ const ImpactAnalysisModal = ({ resource, onClose }: Props) => {
                   <p className="text-xs font-medium text-foreground">{r.action}</p>
                   <p className="text-[10px] text-muted-foreground">{r.impact} · {r.effort}</p>
                 </div>
-                <button className="text-[10px] px-2.5 py-1 rounded bg-primary/10 text-primary hover:bg-primary/20 transition-colors opacity-0 group-hover:opacity-100">
+                <button className="btn-action btn-action-primary opacity-0 group-hover:opacity-100">
                   Execute
                 </button>
               </div>
