@@ -10,10 +10,10 @@ interface NodePosition {
 }
 
 const NODE_COLORS: Record<Resource["type"], string> = {
-  AI_Service: "hsl(217, 91%, 60%)",
-  Storage: "hsl(142, 71%, 45%)",
-  User: "hsl(38, 92%, 50%)",
-  Risk: "hsl(0, 72%, 51%)",
+  AI_Service: "hsl(var(--node-ai))",
+  Storage: "hsl(var(--node-storage))",
+  User: "hsl(var(--node-user))",
+  Risk: "hsl(var(--node-risk))",
 };
 
 const NODE_LABELS: Record<Resource["type"], string> = {
@@ -99,15 +99,15 @@ const GraphVisualization = () => {
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Resource Graph</h2>
         <div className="flex items-center gap-1">
-          <button onClick={() => setZoom(z => Math.min(z + 0.2, 2))} className="p-1.5 rounded hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground">
-            <ZoomIn className="h-3.5 w-3.5" />
-          </button>
-          <button onClick={() => setZoom(z => Math.max(z - 0.2, 0.5))} className="p-1.5 rounded hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground">
-            <ZoomOut className="h-3.5 w-3.5" />
-          </button>
-          <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-1.5 rounded hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground">
-            <RotateCcw className="h-3.5 w-3.5" />
-          </button>
+           <button onClick={() => setZoom(z => Math.min(z + 0.2, 2))} className="btn-icon">
+              <ZoomIn className="h-3.5 w-3.5" />
+            </button>
+            <button onClick={() => setZoom(z => Math.max(z - 0.2, 0.5))} className="btn-icon">
+              <ZoomOut className="h-3.5 w-3.5" />
+            </button>
+            <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="btn-icon">
+              <RotateCcw className="h-3.5 w-3.5" />
+            </button>
         </div>
       </div>
 
@@ -115,13 +115,13 @@ const GraphVisualization = () => {
       <div className="flex flex-wrap items-center gap-2 mb-3">
         <button
           onClick={() => setFilterType("All")}
-          className={`text-[10px] px-2 py-0.5 rounded-full transition-colors ${filterType === "All" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary"}`}
+          className={`pill-filter ${filterType === "All" ? "pill-filter-active" : "pill-filter-inactive"}`}
         >All</button>
         {Object.entries(NODE_LABELS).map(([type, label]) => (
           <button
             key={type}
             onClick={() => setFilterType(type)}
-            className={`flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full transition-colors ${filterType === type ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary"}`}
+            className={`flex items-center gap-1.5 pill-filter ${filterType === type ? "pill-filter-active" : "pill-filter-inactive"}`}
           >
             <span className="h-2 w-2 rounded-full" style={{ backgroundColor: NODE_COLORS[type as Resource["type"]] }} />
             {label}
@@ -154,7 +154,7 @@ const GraphVisualization = () => {
                 y1={from.y}
                 x2={to.x}
                 y2={to.y}
-                stroke="hsl(215, 25%, 25%)"
+                stroke="hsl(var(--chart-line))"
                 strokeWidth={1.5}
                 strokeDasharray={rel.type === "AFFECTS" ? "4 3" : undefined}
                 opacity={selectedNode ? (rel.from === selectedNode.id || rel.to === selectedNode.id ? 0.9 : 0.15) : 0.5}
@@ -243,7 +243,7 @@ const GraphVisualization = () => {
           {/* Analyze Impact button */}
           <button
             onClick={(e) => { e.stopPropagation(); setImpactNode(selectedNode); }}
-            className="mt-3 w-full text-xs px-3 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium"
+            className="mt-3 w-full btn-action btn-action-solid"
           >
             Analyze Impact
           </button>

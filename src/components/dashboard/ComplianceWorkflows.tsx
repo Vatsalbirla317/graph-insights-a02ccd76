@@ -83,11 +83,11 @@ const ComplianceWorkflows = () => {
                       </div>
                     ))}
                     <div className="flex gap-2 mt-2">
-                      <button className="text-[10px] px-2.5 py-1 rounded bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                      <button className="btn-action btn-action-primary">
                         Generate Evidence Report
                       </button>
                       {wf.status === "Failed" && (
-                        <button className="text-[10px] px-2.5 py-1 rounded bg-[hsl(var(--risk-high)/0.1)] severity-high hover:bg-[hsl(var(--risk-high)/0.2)] transition-colors">
+                        <button className="btn-action btn-action-danger">
                           Re-run Workflow
                         </button>
                       )}

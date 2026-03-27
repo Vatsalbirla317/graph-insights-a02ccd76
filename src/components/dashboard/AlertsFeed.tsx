@@ -21,7 +21,7 @@ const AlertsFeed = () => {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`text-[10px] px-2 py-0.5 rounded-full transition-colors ${filter === f ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary"}`}
+              className={`pill-filter ${filter === f ? "pill-filter-active" : "pill-filter-inactive"}`}
             >
               {f}
             </button>
